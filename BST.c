@@ -6,8 +6,6 @@ typedef struct node {
     struct node *left, *right;
 } Node;
 
-
-
 void InOrder(Node *root){
     if(root== NULL) return;
     InOrder(root->left);
@@ -173,80 +171,77 @@ int main(){
 
         switch(choice){
             case 1: 
-            int values, pick;
-            while(pick!=2){
-                printf("Enter number to insert: ");
-                scanf("%d", &values);
-                if(searching(root, values) != NULL){
-                    printf("%d already exists.\n" , values);
+                int values, pick;
+                while(pick!=2){
+                    printf("Enter number to insert: ");
+                    scanf("%d", &values);
+                    if(searching(root, values) != NULL){
+                        printf("%d already exists.\n" , values);
+                    }
+                    else{
+                        insertion_No_Duplicate(&root, values);
+                        printf("%d successfully input.\n" , values);
+                    }
+                    printf("insert another number [1] yes [2] no: ");
+                    scanf("%d", &pick);
                 }
-                else{
-                    insertion_No_Duplicate(&root, values);
-                     printf("%d successfully input.\n" , values);
-                }
-                printf("insert another number [1] yes [2] no: ");
-                scanf("%d", &pick);
-            }
             break;
 
             case 2:
-            int search;
-            printf("Enter number in the tree to search: ");
-            scanf("%d", &search);
-            if(searching(root, search)){
-                printf("%d is found!\n", search);
-            } else {
-                printf("%d is not found!\n");
-            }
+                int search;
+                printf("Enter number in the tree to search: ");
+                scanf("%d", &search);
+                if(searching(root, search)){
+                    printf("%d is found!\n", search);
+                } else {
+                    printf("%d is not found!\n");
+                }
             break;
 
             case 3:
-            int delete_number;
-            printf("Enter node to delete: ");
-            scanf("%d", &delete_number);
-            root=deletion(root, delete_number);
-            printf("Inorder: "); InOrder(root); printf("\n\n");
+                int delete_number;
+                printf("Enter node to delete: ");
+                scanf("%d", &delete_number);
+                root=deletion(root, delete_number);
+                printf("Inorder: "); InOrder(root); printf("\n\n");
             break;
 
             case 4:
-            printf("Inorder: "); InOrder(root); printf("\n\n");
+                printf("Inorder: "); InOrder(root); printf("\n\n");
             break;
 
             case 5:
-            printf("Preorder: "); PreOrder(root); printf("\n\n");
+                printf("Preorder: "); PreOrder(root); printf("\n\n");
             break;
 
             case 6: 
-            printf("Postorder: "); PostOrder(root); printf("\n\n");
+                printf("Postorder: "); PostOrder(root); printf("\n\n");
             break;
 
             case 7:
-            printf("Minimum Value: %d\n\n", minimums(root)); 
+                printf("Minimum Value: %d\n\n", minimums(root)); 
             break;
 
             case 8: 
-            printf("Maximum Value: %d\n\n",  maximums(root));
+                printf("Maximum Value: %d\n\n",  maximums(root));
             break;
 
             case 9:
-            printf("Total Nodes: %d\n\n", countNode(root)); 
+                printf("Total Nodes: %d\n\n", countNode(root)); 
             break;
 
             case 10: 
-            printf("Total leaf nodes: %d\n\n", countLeaf(root)); 
+                printf("Total leaf nodes: %d\n\n", countLeaf(root)); 
             break;
 
             case 11: 
-            printf("Tree Height: %d\n\n", height(root));
+                printf("Tree Height: %d\n\n", height(root));
             break;
 
             default:
-            printf("Thank you!");
+                printf("Thank you!");
             break;
         }
-
-
     }while(choice != 12);
-
     return 0;
 }
