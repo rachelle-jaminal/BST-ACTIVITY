@@ -15,17 +15,18 @@ void InOrder(Node *root){
 
 void PreOrder(Node *root){
     if(root== NULL) return;
+    printf("%d ", root->data);
     PreOrder(root->left);
     PreOrder(root->right);
-    printf("%d ", root->data);
 }
 
 void PostOrder(Node *root){
     if(root== NULL) return;
-    printf("%d ", root->data);
     PostOrder(root->left);
     PostOrder(root->right);
+    printf("%d ", root->data);
 }
+
 
 Node *minimum(Node *root){
     if(root== NULL) return NULL;
@@ -36,7 +37,7 @@ Node *minimum(Node *root){
 }
 
 int minimums(Node *root){
-    if(root== NULL) return NULL;
+    if(root== NULL) return 0;
     while(root->left != NULL){
         root= root->left;
     }
@@ -52,7 +53,7 @@ Node *maximum(Node *root){
 }
 
 int maximums(Node *root){
-    if(root== NULL) return NULL;
+    if(root== NULL) return 0;
     while(root->right != NULL){
         root= root->right;
     }
@@ -61,7 +62,7 @@ int maximums(Node *root){
 
 Node *searching(Node *root, int key){
     if(root==NULL || root->data == key) return root;
-    if(key > root->data) return searching(root->left, key);
+    if(key < root->data) return searching(root->left, key);
     return searching(root->right, key);
 }
 
@@ -145,9 +146,48 @@ Node *deletion(Node *root, int key){
     return root;
 }
 
+int countLevel(Node *root){
+    if(root == NULL) return 0;
+    int leftLevel = countLevel(root->left);
+    int rightLevel = countLevel(root->right);
+    if(leftLevel > rightLevel){
+        return 1 + leftLevel;
+    }
+    else{
+        return 1 + rightLevel;
+    }
+}
+
+int Empty(Node *root){
+    if(root == NULL){
+        return 1;
+    }
+    return 0;
+}
+
+Node *findParentNode(Node *root, int key){
+    if(root == NULL || root->data == key) return NULL;
+    if(root->left != NULL && root->left->data == key || root->right != NULL && root->right->data == key){
+        return root;
+    }
+    if(key < root->data){
+        return findParentNode(root->left, key);
+    }
+    return findParentNode(root->right, key);
+}
+
+int countOneChild(Node *root){
+    if(root == NULL) return 0;
+    int count = 0;
+    if(root->left == NULL && root->right != NULL || root->left != NULL && root->right == NULL){
+        count = 1;
+    }
+    return count + countOneChild(root->left) + countOneChild(root->right);
+}
+
 int main(){
 
-    Node *root = NULL;
+    Node *root = NULL, *root2 = NULL, *p;
     int choice;
 
     do{ 
@@ -165,14 +205,16 @@ int main(){
         printf("[9] Count Total Nodes\n");
         printf("[10] Count Leaf Nodes\n");
         printf("[11] Find Tree Height\n");
-        printf("[12] Exit\n\n");
+        printf("[12] Count One Child Nodes\n");
+        printf("[13] Find Parent of a Node\n");
+        printf("[14] Exit\n\n");
         printf("Enter your choice: ");
-        scanf("%d", &choice);
+        scanf("%d", &choice);   
 
         switch(choice){
             case 1: 
-                int values, pick;
-                while(pick!=2){
+                int values, pick = 1;
+                while(pick == 1){
                     printf("Enter number to insert: ");
                     scanf("%d", &values);
                     if(searching(root, values) != NULL){
@@ -182,66 +224,141 @@ int main(){
                         insertion_No_Duplicate(&root, values);
                         printf("%d successfully input.\n" , values);
                     }
-                    printf("insert another number [1] yes [2] no: ");
-                    scanf("%d", &pick);
+                    do{
+                        printf("insert another number [1] yes [2] no: ");
+                        scanf("%d", &pick);
+                            if(pick < 1 || pick > 2){
+                                printf("Invalid choice!\n");
+                            }
+                        }
+                    while(pick < 1 || pick > 2);
                 }
             break;
 
             case 2:
                 int search;
-                printf("Enter number in the tree to search: ");
+                printf("Enter number to search: ");
                 scanf("%d", &search);
-                if(searching(root, search)){
-                    printf("%d is found!\n", search);
-                } else {
-                    printf("%d is not found!\n");
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    if(searching(root, search)){
+                        printf("%d is FOUND in the Binary Search Tree.\n", search);
+                    } else {
+                        printf("%d is not found!\n", search);
+                    }
                 }
             break;
 
             case 3:
                 int delete_number;
-                printf("Enter node to delete: ");
-                scanf("%d", &delete_number);
-                root=deletion(root, delete_number);
-                printf("Inorder: "); InOrder(root); printf("\n\n");
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Enter node to delete: ");
+                    scanf("%d", &delete_number);
+                    root=deletion(root, delete_number);
+                    printf("Inorder: "); InOrder(root); printf("\n\n");
+                }
+                
             break;
 
             case 4:
-                printf("Inorder: "); InOrder(root); printf("\n\n");
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Inorder: "); InOrder(root); printf("\n\n");
+                }
             break;
 
             case 5:
-                printf("Preorder: "); PreOrder(root); printf("\n\n");
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Preorder: "); PreOrder(root); printf("\n\n");
+                }
             break;
 
             case 6: 
-                printf("Postorder: "); PostOrder(root); printf("\n\n");
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Postorder: "); PostOrder(root); printf("\n\n");
+                }         
             break;
 
             case 7:
-                printf("Minimum Value: %d\n\n", minimums(root)); 
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Minimum Value: %d\n\n", minimums(root));
+                }     
             break;
 
             case 8: 
-                printf("Maximum Value: %d\n\n",  maximums(root));
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Maximum Value: %d\n\n",  maximums(root));
+                }
             break;
 
             case 9:
-                printf("Total Nodes: %d\n\n", countNode(root)); 
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Total Nodes: %d\n\n", countNode(root)); 
+                }
             break;
 
             case 10: 
-                printf("Total leaf nodes: %d\n\n", countLeaf(root)); 
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Total leaf nodes: %d\n\n", countLeaf(root)); 
+                }  
             break;
 
             case 11: 
-                printf("Tree Height: %d\n\n", height(root));
+                if(Empty(root)){
+                    printf("Tree is Empty.\n\n");
+                } else{
+                    printf("Tree Height: %d\n", height(root));
+                    printf("Level of Tree: %d\n\n", countLevel(root));
+                }
             break;
 
+            case 12:
+                printf("Number of Nodes with exactly one child: %d\n\n", countOneChild(root));
+            break;
+
+            case 13:
+                int parent;
+                printf("Enter Node to find its parent: ");
+                scanf("%d", &parent);
+                if(searching(root, parent) == NULL){
+                    printf("%d is not in the tree.\n\n", parent);
+                } else{
+                    p = findParentNode(root, parent);
+                    if(p == NULL){
+                        printf("%d is the root and has no parent.\n\n", parent);
+                    } else{
+                        printf("The parent of %d is %d\n\n", parent, p->data);
+                    }
+                }
+            break;
+
+            case 14:
+                printf("Thank you");
+            break; 
+
             default:
-                printf("Thank you!");
+                printf("Invalid choice\n\n");
             break;
         }
-    }while(choice != 12);
+    }
+    
+    while(choice != 13);
+    
     return 0;
 }
