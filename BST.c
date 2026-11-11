@@ -101,8 +101,7 @@ Node *insertion_No_Duplicate(Node **root, int value){
             return NULL;
         }
     }
-
-    Node *temp = malloc(sizeof(*temp));
+    Node *temp = (Node *)malloc(sizeof(*temp));
     if(temp == NULL){return NULL;}
     temp -> data = value;
     temp->left = NULL;
@@ -115,8 +114,7 @@ Node *insertion_No_Duplicate(Node **root, int value){
         } else {
             parent ->right = temp;
         }
-
-        return *root;
+        return temp;
 }
 
 Node *deletion(Node *root, int key){
@@ -146,16 +144,18 @@ Node *deletion(Node *root, int key){
         root->data = temp->data;
         root->right = deletion(root->right, temp->data);
     }
+    return root;
 }
+
 int main(){
 
     Node *root = NULL;
     int choice;
 
     do{ 
-        printf("========================================");
-        printf("       BINARY SEARCH TREE SYSTEM        ");
-        printf("========================================");
+        printf("========================================\n");
+        printf("       BINARY SEARCH TREE SYSTEM        \n");
+        printf("========================================\n");
         printf("[1] Insert Node\n");
         printf("[2] Search Node\n");
         printf("[3] Delete Node\n");
@@ -174,7 +174,7 @@ int main(){
         switch(choice){
             case 1: 
             int values, pick;
-            while(pick!=1){
+            while(pick!=2){
                 printf("Enter number to insert: ");
                 scanf("%d", &values);
                 if(searching(root, values) != NULL){
@@ -194,50 +194,50 @@ int main(){
             printf("Enter number in the tree to search: ");
             scanf("%d", &search);
             if(searching(root, search)){
-                printf("%d is found!", search);
+                printf("%d is found!\n", search);
             } else {
-                printf("%d is not found!");
+                printf("%d is not found!\n");
             }
             break;
 
             case 3:
-            int delete;
+            int delete_number;
             printf("Enter node to delete: ");
-            scanf("%d", &delete);
-            root=deletion(root, delete);
-            printf("Inorder: "); InOrder(root); printf("\n");
+            scanf("%d", &delete_number);
+            root=deletion(root, delete_number);
+            printf("Inorder: "); InOrder(root); printf("\n\n");
             break;
 
             case 4:
-            printf("Inorder: "); InOrder(root); printf("\n");
+            printf("Inorder: "); InOrder(root); printf("\n\n");
             break;
 
             case 5:
-            printf("Preorder: "); PreOrder(root); printf("\n");
+            printf("Preorder: "); PreOrder(root); printf("\n\n");
             break;
 
             case 6: 
-            printf("Postorder: "); PostOrder(root); printf("\n");
+            printf("Postorder: "); PostOrder(root); printf("\n\n");
             break;
 
             case 7:
-            printf("Minimum Value: %d", minimums(root)); 
+            printf("Minimum Value: %d\n\n", minimums(root)); 
             break;
 
             case 8: 
-            printf("Maximum Value: %d",  maximums(root));
+            printf("Maximum Value: %d\n\n",  maximums(root));
             break;
 
             case 9:
-            printf("Total Nodes: %d", countNode(root)); 
+            printf("Total Nodes: %d\n\n", countNode(root)); 
             break;
 
             case 10: 
-            printf("Total leaf nodes: %d", countLeaf(root)); 
+            printf("Total leaf nodes: %d\n\n", countLeaf(root)); 
             break;
 
             case 11: 
-            printf("Tree Height: %d", height(root));
+            printf("Tree Height: %d\n\n", height(root));
             break;
 
             default:
