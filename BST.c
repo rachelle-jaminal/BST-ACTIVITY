@@ -6,24 +6,24 @@ typedef struct node {
     struct node *left, *right;
 } Node;
 
-void InOrder(Node *root){
+void inorder(Node *root){
     if(root== NULL) return;
-    InOrder(root->left);
+    inorder(root->left);
     printf("%d ", root->data);
-    InOrder(root->right);
+    inorder(root->right);
 }
 
-void PreOrder(Node *root){
+void preorder(Node *root){
     if(root== NULL) return;
     printf("%d ", root->data);
-    PreOrder(root->left);
-    PreOrder(root->right);
+    preorder(root->left);
+    preorder(root->right);
 }
 
-void PostOrder(Node *root){
+void postorder(Node *root){
     if(root== NULL) return;
-    PostOrder(root->left);
-    PostOrder(root->right);
+    postorder(root->left);
+    postorder(root->right);
     printf("%d ", root->data);
 }
 
@@ -88,7 +88,7 @@ int countLeaf(Node *root){
     return countLeaf(root->left) + countLeaf(root->right);
 }
 
-Node *insertion_No_Duplicate(Node **root, int value){
+Node *insertNode(Node **root, int value){
     Node *current = *root, *parent = NULL;
     while(current != NULL){
         parent = current;
@@ -167,7 +167,7 @@ int Empty(Node *root){
 
 Node *findParentNode(Node *root, int key){
     if(root == NULL || root->data == key) return NULL;
-    if(root->left != NULL && root->left->data == key || root->right != NULL && root->right->data == key){
+    if((root->left != NULL && root->left->data == key) || (root->right != NULL && root->right->data == key)){
         return root;
     }
     if(key < root->data){
@@ -221,7 +221,7 @@ int main(){
                         printf("%d already exists.\n" , values);
                     }
                     else{
-                        insertion_No_Duplicate(&root, values);
+                        insertNode(&root, values);
                         printf("%d successfully input.\n" , values);
                     }
                     do{
@@ -233,6 +233,9 @@ int main(){
                         }
                     while(pick < 1 || pick > 2);
                 }
+
+                printf("Inorder Traversal:\n"); 
+                inorder(root); printf("\n\n");
             break;
 
             case 2:
@@ -243,9 +246,9 @@ int main(){
                     printf("Tree is Empty.\n\n");
                 } else{
                     if(searching(root, search)){
-                        printf("%d is FOUND in the Binary Search Tree.\n", search);
+                        printf("%d is FOUND in the Binary Search Tree.\n\n", search);
                     } else {
-                        printf("%d is not found!\n", search);
+                        printf("%d is not found!\n\n", search);
                     }
                 }
             break;
@@ -258,7 +261,7 @@ int main(){
                     printf("Enter node to delete: ");
                     scanf("%d", &delete_number);
                     root=deletion(root, delete_number);
-                    printf("Inorder: "); InOrder(root); printf("\n\n");
+                    printf("INORDER:\n"); inorder(root); printf("\n\n");
                 }
                 
             break;
@@ -267,7 +270,7 @@ int main(){
                 if(Empty(root)){
                     printf("Tree is Empty.\n\n");
                 } else{
-                    printf("Inorder: "); InOrder(root); printf("\n\n");
+                    printf("INORDER:\n"); inorder(root); printf("\n\n");
                 }
             break;
 
@@ -275,7 +278,7 @@ int main(){
                 if(Empty(root)){
                     printf("Tree is Empty.\n\n");
                 } else{
-                    printf("Preorder: "); PreOrder(root); printf("\n\n");
+                    printf("PREORDER:\n"); preorder(root); printf("\n\n");
                 }
             break;
 
@@ -283,7 +286,7 @@ int main(){
                 if(Empty(root)){
                     printf("Tree is Empty.\n\n");
                 } else{
-                    printf("Postorder: "); PostOrder(root); printf("\n\n");
+                    printf("POSTORDER: "); postorder(root); printf("\n\n");
                 }         
             break;
 
@@ -358,7 +361,7 @@ int main(){
         }
     }
     
-    while(choice != 13);
+    while(choice != 14);
     
     return 0;
 }
